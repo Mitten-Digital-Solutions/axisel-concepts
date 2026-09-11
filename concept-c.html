@@ -1,0 +1,410 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Axisel One System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300..800&family=Bricolage+Grotesque:opsz,wght@12..96,800&display=swap">
+<style>
+  :root{
+    --navy:#0B141F; --navy-2:#111D2B; --navy-3:#182838;
+    --bone:#F3EEE4; --bone-60:rgba(243,238,228,.62); --bone-40:rgba(243,238,228,.4); --bone-20:rgba(243,238,228,.2);
+    --slate:#8891A0; --gold:#E9A63C; --coral:#FF5F3E;
+    --line:rgba(243,238,228,.13); --line-soft:rgba(243,238,228,.08);
+    --glass:linear-gradient(180deg,rgba(243,238,228,.08),rgba(243,238,228,.03));
+    --ease:cubic-bezier(.2,.8,.2,1); --settle:cubic-bezier(.16,1,.3,1);
+    --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --wordmark:"Bricolage Grotesque","Inter",sans-serif;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--navy);color:var(--bone);font-family:var(--sans);font-feature-settings:"ss01","cv11";font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .serif{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;line-height:1}
+  .it{font-style:italic}
+  .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:500;display:inline-flex;gap:10px;align-items:center}
+  .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+  .btn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:4px;font-size:14px;font-weight:600;letter-spacing:.02em;background:var(--bone);color:var(--navy);transition:background 400ms var(--ease),transform 400ms var(--ease)}
+  .btn:hover{background:#fff;transform:translateY(-1px)}
+  .btn.coral{background:var(--coral);color:var(--bone)}
+  .btn.coral:hover{background:#ff7256}
+  .btn.ghost{background:transparent;color:var(--bone);border:1px solid var(--line)}
+  .link{display:inline-flex;align-items:center;gap:12px;font-weight:500;font-size:15px;color:var(--bone)}
+  .arrow{width:34px;height:34px;border-radius:50%;border:1px solid var(--gold);display:inline-grid;place-items:center;color:var(--gold)}
+  .wrap{width:min(1300px,calc(100% - 96px));margin:0 auto}
+  .lockup{display:flex;align-items:center;gap:10px}
+  .lockup .word{font-family:var(--wordmark);font-weight:800;font-size:26px;letter-spacing:-.04em;line-height:1;font-variation-settings:"opsz" 96;color:var(--bone)}
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:30;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  nav{position:fixed;inset:0 0 auto 0;z-index:20;height:76px;display:flex;align-items:center}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between}
+  nav ul{display:flex;gap:34px;list-style:none;font-size:14px;font-weight:500;color:var(--bone-60)}
+  nav .cta{display:flex;align-items:center;gap:22px;font-size:14px;font-weight:500}
+  nav .btn{height:42px;padding:0 20px}
+
+  /* HERO */
+  .hero{position:relative;min-height:100vh;display:grid;align-items:center;padding:140px 0 80px;overflow:hidden;isolation:isolate}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(1100px 700px at 68% 52%,#1B2E42 0%,#0F1B29 45%,#0B141F 100%)}
+  .hero .bloom{position:absolute;z-index:-1;border-radius:50%;filter:blur(100px);pointer-events:none}
+  .hero .bloom.a{width:700px;height:700px;right:-160px;top:-260px;background:radial-gradient(closest-side,rgba(255,95,62,.22),rgba(255,95,62,0));animation:breathe 12s ease-in-out infinite}
+  .hero .bloom.b{width:600px;height:600px;left:-260px;bottom:-320px;background:radial-gradient(closest-side,rgba(233,166,60,.16),rgba(233,166,60,0));animation:breathe 14s ease-in-out infinite reverse}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+  .hero .wrap{display:grid;grid-template-columns:6fr 6fr;gap:40px;align-items:center}
+  .hero h1{font-size:clamp(60px,6.4vw,92px);line-height:1;margin:26px 0 28px;letter-spacing:-.025em}
+  .hero h1 .it{color:var(--gold)}
+  .hero p.lede{max-width:46ch;font-size:18px;font-weight:300;color:var(--bone-60)}
+  .hero .actions{display:flex;align-items:center;gap:26px;margin:36px 0 24px}
+  .hero .proof{font-size:13px;color:var(--bone-40)}
+  .hero .proof b{color:var(--bone);font-weight:500}
+  .rise{animation:rise 1000ms var(--ease) both}
+  .rise:nth-child(2){animation-delay:90ms}.rise:nth-child(3){animation-delay:180ms}.rise:nth-child(4){animation-delay:270ms}.rise:nth-child(5){animation-delay:360ms}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+  /* exploded stack */
+  .scene{position:relative;height:640px;perspective:1600px;perspective-origin:50% 40%}
+  .stack{position:absolute;left:56%;top:52%;width:460px;height:300px;transform-style:preserve-3d;transform:translate(-50%,-50%) rotateX(58deg) rotateZ(-23.5deg);animation:hover 10s ease-in-out infinite}
+  @keyframes hover{0%,100%{transform:translate(-50%,-50%) rotateX(58deg) rotateZ(-23.5deg)}50%{transform:translate(-50%,-52%) rotateX(56deg) rotateZ(-21.5deg)}}
+  .layer{position:absolute;inset:0;background:linear-gradient(180deg,rgba(243,238,228,.13),rgba(243,238,228,.05));border:1px solid rgba(243,238,228,.22);border-radius:8px;backdrop-filter:blur(8px);padding:16px 18px;font-size:11.5px;color:var(--bone-60);box-shadow:0 30px 60px -20px rgba(0,0,0,.6);transform:translateZ(var(--z));animation:explode 1600ms var(--settle) both}
+  @keyframes explode{from{transform:translateZ(0);opacity:.6}to{transform:translateZ(var(--z));opacity:1}}
+  .layer .t{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--bone-40);margin-bottom:12px}
+  .layer .t b{color:var(--bone);letter-spacing:0;text-transform:none;font-size:13px;font-weight:500}
+  .l1{--z:0px}.l2{--z:70px;animation-delay:80ms}.l3{--z:140px;animation-delay:160ms}.l4{--z:210px;animation-delay:240ms}.l5{--z:280px;animation-delay:320ms}
+  .rows div{display:grid;grid-template-columns:58px 1fr auto auto;gap:10px;padding:7px 0;border-top:1px solid var(--line-soft);font-variant-numeric:tabular-nums;align-items:center}
+  .rows .st{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 6px;border-radius:3px;background:var(--line-soft)}
+  .rows .st.live{background:rgba(255,95,62,.2);color:#FFB09E}
+  .rows .st.gold{background:rgba(233,166,60,.18);color:var(--gold)}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .grid4 i{display:block;aspect-ratio:1;border-radius:4px;background:linear-gradient(135deg,rgba(243,238,228,.16),rgba(243,238,228,.05))}
+  .bars{display:flex;align-items:end;gap:6px;height:90px;border-bottom:1px solid var(--line-soft);padding-bottom:0}
+  .bars i{flex:1;background:linear-gradient(180deg,var(--gold),rgba(233,166,60,.2));border-radius:2px 2px 0 0;display:block;opacity:.9}
+  .bars i.c{background:linear-gradient(180deg,var(--coral),rgba(255,95,62,.2))}
+  .camp{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:10px;border:1px solid var(--line-soft);border-radius:6px;margin-top:6px}
+  .camp b{display:block;color:var(--bone);font-weight:500;font-size:12px}
+  .tog{width:30px;height:18px;border-radius:9px;background:var(--gold);position:relative}
+  .tog::after{content:"";position:absolute;right:2px;top:2px;width:14px;height:14px;border-radius:50%;background:var(--navy)}
+  .store{display:grid;grid-template-columns:1.2fr 1fr;gap:10px}
+  .store .ph{aspect-ratio:4/3;border-radius:4px;background:linear-gradient(160deg,#E9A63C,#FF5F3E);opacity:.85}
+  .store .tx b{display:block;font-family:var(--serif);font-size:20px;letter-spacing:-.02em;color:var(--bone);font-weight:400;line-height:1.05}
+  .store .tx span{display:block;margin-top:6px;font-size:11px}
+  .labels{position:absolute;left:-40px;top:50%;transform:translateY(-50%);display:grid;gap:22px;font-size:12px;color:var(--bone-40);letter-spacing:.04em}
+  .labels div{display:flex;align-items:center;gap:12px}
+  .labels div::after{content:"";width:60px;height:1px;background:var(--line)}
+  .labels b{color:var(--bone);font-weight:500}
+  .labels .g{color:var(--gold)}
+  .feed{position:absolute;right:0;bottom:30px;width:300px;background:var(--navy-2);border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-size:12.5px;box-shadow:0 30px 60px -20px rgba(0,0,0,.7);animation:feedin 1200ms var(--settle) 900ms both}
+  @keyframes feedin{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+  .feed .h{display:flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-bottom:8px}
+  .feed .h::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 4px rgba(255,95,62,.2)}
+  .feed b{color:var(--bone);font-weight:500}
+  .feed small{display:block;color:var(--bone-40);margin-top:4px}
+
+  /* SCATTERED -> ONE */
+  .one{padding:160px 0;position:relative;overflow:hidden;background:var(--navy)}
+  .one::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(156.5deg,transparent 0 28px,rgba(243,238,228,.045) 28px 29px);pointer-events:none}
+  .one .wrap{position:relative;display:grid;grid-template-columns:5fr 7fr;gap:60px;align-items:center}
+  .one h2{font-size:clamp(48px,5vw,72px);margin:20px 0 24px}
+  .one h2 .it{color:var(--gold)}
+  .one p{max-width:40ch;font-weight:300;color:var(--bone-60);font-size:18px}
+  .one .list{margin-top:32px;display:grid;gap:12px;font-size:14.5px;color:var(--bone-60)}
+  .one .list div{display:flex;gap:12px}
+  .one .list b{color:var(--bone);font-weight:500;min-width:96px}
+  .rail{position:relative;height:520px}
+  .rail .axis{position:absolute;left:-10%;right:-10%;top:50%;height:2px;background:linear-gradient(90deg,transparent,var(--gold) 30%,var(--coral) 70%,transparent);transform:rotate(-23.5deg);box-shadow:0 0 40px rgba(233,166,60,.35)}
+  .chip{position:absolute;padding:9px 14px;border:1px solid var(--line);border-radius:999px;font-size:12.5px;color:var(--bone-60);background:rgba(11,20,31,.6);backdrop-filter:blur(6px);display:flex;gap:8px;align-items:center;animation:pull 8s var(--settle) infinite}
+  .chip i{width:6px;height:6px;border-radius:50%;background:var(--slate);display:block}
+  .chip:nth-child(2){left:0;top:40px;--tx:220px;--ty:120px}
+  .chip:nth-child(3){left:60px;top:150px;--tx:160px;--ty:40px;animation-delay:-1s}
+  .chip:nth-child(4){left:20px;top:300px;--tx:200px;--ty:-70px;animation-delay:-2s}
+  .chip:nth-child(5){left:130px;top:420px;--tx:120px;--ty:-160px;animation-delay:-3s}
+  .chip:nth-child(6){right:40px;top:30px;--tx:-160px;--ty:130px;animation-delay:-1.5s}
+  .chip:nth-child(7){right:0;top:400px;--tx:-160px;--ty:-150px;animation-delay:-2.5s}
+  @keyframes pull{0%,100%{transform:none;opacity:1}50%{transform:translate(calc(var(--tx)*.35),calc(var(--ty)*.35)) scale(.92);opacity:.6}}
+  .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:380px;background:var(--navy-2);border:1px solid rgba(233,166,60,.4);border-radius:10px;padding:20px 22px;box-shadow:0 0 0 1px rgba(233,166,60,.1),0 40px 80px -30px rgba(0,0,0,.8),0 0 80px rgba(233,166,60,.12)}
+  .core .t{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--bone-40);margin-bottom:14px}
+  .core .t b{color:var(--bone);letter-spacing:0;text-transform:none;font-size:14px;font-weight:500}
+  .core .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+  .core .kpi div{border:1px solid var(--line-soft);border-radius:6px;padding:10px 12px}
+  .core .kpi small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-40);margin-bottom:6px}
+  .core .kpi b{font-family:var(--serif);font-weight:400;font-size:28px;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+  .core .rows{font-size:12px;color:var(--bone-60)}
+
+  /* SURFACES */
+  .surfaces{padding:120px 0 160px}
+  .surfaces .head{display:grid;grid-template-columns:6fr 6fr;gap:40px;align-items:end;margin-bottom:60px}
+  .surfaces h2{font-size:clamp(48px,5vw,72px);margin-top:20px}
+  .surfaces h2 .it{color:var(--gold)}
+  .surfaces .head p{max-width:40ch;font-weight:300;color:var(--bone-60)}
+  .surfaces .body{display:grid;grid-template-columns:3fr 9fr;gap:40px;align-items:start}
+  .index{position:sticky;top:120px;list-style:none;border-top:1px solid var(--line)}
+  .index li{padding:16px 0;border-bottom:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:baseline;color:var(--bone-40);font-size:15px;transition:color 500ms var(--ease)}
+  .index li small{font-size:11px;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+  .index li.on{color:var(--bone)}
+  .index li.on small{color:var(--gold)}
+  .screen{background:var(--navy-2);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.7)}
+  .screen .top{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line-soft);font-size:12px;color:var(--bone-40)}
+  .screen .top i{width:9px;height:9px;border-radius:50%;background:var(--line);display:inline-block}
+  .screen .top .url{margin-left:10px;padding:5px 12px;border-radius:4px;background:rgba(243,238,228,.05);font-variant-numeric:tabular-nums}
+  .screen .in{display:grid;grid-template-columns:200px 1fr;min-height:440px}
+  .screen aside{border-right:1px solid var(--line-soft);padding:20px 16px;font-size:13px;color:var(--bone-40);display:grid;gap:12px;align-content:start}
+  .screen aside .on{color:var(--bone);display:flex;justify-content:space-between}
+  .screen aside .on span{color:var(--gold);font-size:11px}
+  .screen main{padding:22px 26px}
+  .screen main h4{font-family:var(--serif);font-weight:400;font-size:30px;letter-spacing:-.02em;margin-bottom:4px}
+  .screen main .sub{font-size:12.5px;color:var(--bone-40);margin-bottom:20px}
+  .tbl{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+  .tbl th{text-align:left;font-weight:500;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-40);padding:8px 0;border-bottom:1px solid var(--line)}
+  .tbl td{padding:12px 0;border-bottom:1px solid var(--line-soft);color:var(--bone-60)}
+  .tbl td:first-child{color:var(--bone)}
+  .tbl .st{font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:3px;background:var(--line-soft);color:var(--bone-60)}
+  .tbl .st.live{background:rgba(255,95,62,.2);color:#FFB09E}.tbl .st.gold{background:rgba(233,166,60,.18);color:var(--gold)}
+  .tbl .ch{display:inline-flex;align-items:center;gap:6px}
+  .tbl .ch i{width:14px;height:14px;border-radius:3px;background:var(--line);display:inline-block}
+
+  /* LIGHT BREAK */
+  .fast{background:var(--bone);color:var(--navy);padding:150px 0}
+  .fast .wrap{display:grid;grid-template-columns:5fr 7fr;gap:60px;align-items:center}
+  .fast .eyebrow{color:var(--coral)}.fast .eyebrow::before{background:var(--coral)}
+  .fast h2{font-size:clamp(52px,5.6vw,80px);margin:20px 0 24px}
+  .fast h2 .it{color:var(--coral)}
+  .fast p{max-width:40ch;font-weight:300;color:#3C434C;font-size:18px}
+  .fast .btn{background:var(--navy);color:var(--bone);margin-top:30px}
+  .steps{display:grid;grid-template-columns:1fr;border-top:1px solid rgba(11,20,31,.16)}
+  .steps > div{display:grid;grid-template-columns:60px 1fr;gap:20px;padding:26px 0;border-bottom:1px solid rgba(11,20,31,.1);align-items:baseline}
+  .steps b{font-family:var(--serif);font-weight:400;font-size:44px;letter-spacing:-.03em;color:var(--coral);line-height:1;font-variant-numeric:tabular-nums}
+  .steps h4{font-size:22px;font-weight:500;letter-spacing:-.01em;margin-bottom:6px}
+  .steps p{font-size:15px;color:#3C434C;max-width:44ch}
+
+  /* PRICING */
+  .pricing{padding:140px 0}
+  .pricing .head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:50px}
+  .pricing h2{font-size:clamp(44px,4.6vw,64px);margin-top:20px}
+  .pricing .head p{max-width:40ch;font-weight:300;color:var(--bone-60)}
+  .plans{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .plan{padding:28px 22px 28px 0;border-right:1px solid var(--line-soft);margin-right:22px}
+  .plan:last-child{border:0;margin:0}
+  .plan small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--bone-40);margin-bottom:12px}
+  .plan b{font-family:var(--serif);font-weight:400;font-size:44px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+  .plan b sub{font-family:var(--sans);font-size:12px;vertical-align:baseline;color:var(--bone-40);margin-left:2px}
+  .plan p{font-size:13.5px;color:var(--bone-60);margin-top:12px;line-height:1.45}
+  .plan.hi small{color:var(--gold)}
+  .pricing .note{margin-top:26px;font-size:14px;color:var(--bone-60)}
+  .pricing .note b{color:var(--bone);font-weight:500}
+
+  footer{border-top:1px solid var(--line);padding:70px 0 40px}
+  footer .wrap{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
+  footer .tag{font-family:var(--serif);font-style:italic;font-size:26px;color:var(--gold);margin:22px 0 10px}
+  footer p{font-size:13.5px;color:var(--bone-40);max-width:34ch;font-weight:300}
+  footer h5{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--bone-40);margin-bottom:14px;font-weight:500}
+  footer ul{list-style:none;display:grid;gap:9px;font-size:14px;color:var(--bone-60)}
+  footer .base{margin:48px auto 0;padding-top:22px;border-top:1px solid var(--line-soft);display:flex;justify-content:space-between;font-size:12px;color:var(--bone-40)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  @media (max-width:900px){
+    .wrap{width:calc(100% - 40px)}
+    nav ul,nav .cta a:not(.btn){display:none}
+    .hero{padding:110px 0 40px;min-height:auto}
+    .hero .wrap,.one .wrap,.surfaces .head,.surfaces .body,.fast .wrap,footer .wrap{grid-template-columns:1fr}
+    .hero h1{font-size:54px}
+    .scene{height:520px}
+    .stack{width:340px;height:230px}
+    .labels{display:none}
+    .feed{right:auto;left:0;bottom:0}
+    .rail{height:440px;transform:scale(.8);transform-origin:left top}
+    .index{position:static;display:flex;gap:18px;overflow:auto}
+    .index li{border:0;padding:0 0 12px}
+    .screen .in{grid-template-columns:1fr}.screen aside{display:none}
+    .plans{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head><body>
+<svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <linearGradient id="axTop" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#F6E6C6"/><stop offset="0.34" stop-color="#E9A63C"/><stop offset="1" stop-color="#FF5F3E"/>
+    </linearGradient>
+    <linearGradient id="axBot" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0" stop-color="#F6E6C6"/><stop offset="0.34" stop-color="#E9A63C"/><stop offset="1" stop-color="#FF5F3E"/>
+    </linearGradient>
+    <linearGradient id="axFlat" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E9A63C"/><stop offset="1" stop-color="#FF5F3E"/>
+    </linearGradient>
+    <symbol id="axMark" viewBox="0 0 100 100">
+      <g transform="rotate(-23.5 50 50)">
+        <path fill="url(#axTop)" d="M35 25.5 H82 V46.5 H18 V42.5 A17 17 0 0 1 35 25.5 Z"/>
+        <path fill="url(#axBot)" d="M18 53.5 H82 V57.5 A17 17 0 0 1 65 74.5 H18 Z"/>
+      </g>
+    </symbol>
+    <symbol id="axMarkMono" viewBox="0 0 100 100">
+      <g transform="rotate(-23.5 50 50)">
+        <path fill="currentColor" d="M35 25.5 H82 V46.5 H18 V42.5 A17 17 0 0 1 35 25.5 Z"/>
+        <path fill="currentColor" d="M18 53.5 H82 V57.5 A17 17 0 0 1 65 74.5 H18 Z"/>
+      </g>
+    </symbol>
+    <symbol id="axPlaneTop" viewBox="0 0 100 100">
+      <g transform="rotate(-23.5 50 50)"><path fill="url(#axTop)" d="M35 25.5 H82 V46.5 H18 V42.5 A17 17 0 0 1 35 25.5 Z"/></g>
+    </symbol>
+    <symbol id="axPlaneBot" viewBox="0 0 100 100">
+      <g transform="rotate(-23.5 50 50)"><path fill="url(#axBot)" d="M18 53.5 H82 V57.5 A17 17 0 0 1 65 74.5 H18 Z"/></g>
+    </symbol>
+    <pattern id="dashRhythm" width="72" height="36" patternUnits="userSpaceOnUse">
+      <g transform="rotate(-23.5 18 18)"><rect x="9" y="16" width="18" height="4" rx="2" fill="#E9A63C"/></g>
+      <g transform="rotate(-23.5 54 18)"><rect x="45" y="16" width="18" height="4" rx="2" fill="#FF5F3E"/></g>
+    </pattern>
+    <pattern id="facet" width="64" height="64" patternUnits="userSpaceOnUse">
+      <use href="#axMarkMono" x="0" y="0" width="64" height="64"/>
+    </pattern>
+  </defs>
+</svg>
+<div class="grain"></div>
+<nav>
+  <div class="wrap">
+    <a class="lockup" href="#"><svg width="34" height="34"><use href="#axMark"/></svg><span class="word">axisel</span></a>
+    <ul><li><a href="#">Platform</a></li><li><a href="#">Templates</a></li><li><a href="#">Pricing</a></li><li><a href="#">Community</a></li><li><a href="#">About</a></li></ul>
+    <div class="cta"><a href="#">Sign in</a><a class="btn" href="#">Start free</a></div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="bloom a"></div><div class="bloom b"></div>
+  <div class="wrap">
+    <div>
+      <span class="eyebrow rise">AI-powered commerce platform · Built in Beirut</span>
+      <h1 class="serif rise">Every order.<br>Every product.<br>Every sale.<br><span class="it">One system.</span></h1>
+      <p class="lede rise">Axisel puts your storefront, your stock, your orders, and your payments on one system, so the order that lands from Instagram is the same one you pack, the same stock that updates, and the same sale you count. Built for merchants in Lebanon, without a developer.</p>
+      <div class="actions rise">
+        <a class="btn coral" href="#">Start free</a>
+        <a class="link" href="#"><span class="arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l8 8M11 4v7H4"/></svg></span>Take the tour</a>
+      </div>
+      <div class="proof rise"><b>Free plan</b> · No card · <b>0% commission</b> on your sales</div>
+    </div>
+    <div class="scene">
+      <div class="labels">
+        <div><b>Storefront</b></div><div><b>Catalog</b></div><div class="g"><b style="color:var(--gold)">Orders</b>live</div><div><b>Campaigns</b></div><div><b>Analytics</b></div>
+      </div>
+      <div class="stack">
+        <div class="layer l1"><div class="t"><b>Analytics</b><span>Last 7 days</span></div><div class="bars"><i style="height:40%"></i><i style="height:55%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:62%"></i><i class="c" style="height:88%"></i><i style="height:76%"></i></div></div>
+        <div class="layer l2"><div class="t"><b>Campaigns</b><span>2 active</span></div><div class="camp"><div><b>Buy 2, get 15% off</b>Instagram · Web · ends Sunday</div><div class="tog"></div></div><div class="camp"><div><b>VIP early access</b>142 customers · SMS + email</div><div class="tog"></div></div></div>
+        <div class="layer l3"><div class="t"><b>Orders</b><span style="color:var(--coral)">● Live</span></div><div class="rows"><div><span>#4821</span><span>Rania K. · Instagram</span><span>$64</span><span class="st live">Just now</span></div><div><span>#4820</span><span>Karim H. · Web</span><span>$48</span><span class="st gold">Paid</span></div><div><span>#4819</span><span>Maya S. · WhatsApp</span><span>$112</span><span class="st">Packing</span></div></div></div>
+        <div class="layer l4"><div class="t"><b>Catalog</b><span>248 products</span></div><div class="grid4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="layer l5"><div class="t"><b>Storefront</b><span>nour-ceramics.axisel.store</span></div><div class="store"><div class="ph"></div><div class="tx"><b>Nour Ceramics</b><span>Handmade in Beirut. New collection: Sand.</span></div></div></div>
+      </div>
+      <div class="feed"><div class="h">New order · Instagram</div><b>#4822 · Lina A. · Achrafieh</b><small>2 × Linen shirt · $96 · Cash on delivery · stock updated</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="one">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Why one system</span>
+      <h2 class="serif">Stop running your business out of <span class="it">five apps.</span></h2>
+      <p>Instagram for orders, WhatsApp for payment screenshots, a spreadsheet for stock, a delivery app, and a link in bio. Every seam between them costs you an order. Axisel pulls all of it onto one axis.</p>
+      <div class="list">
+        <div><b>Orders</b><span>Every channel in one live view</span></div>
+        <div><b>Stock</b><span>One number, updated the moment you sell</span></div>
+        <div><b>Payments</b><span>Cash on delivery, cards, wallets. No commission.</span></div>
+        <div><b>Delivery</b><span>Lebanese couriers, connected</span></div>
+      </div>
+    </div>
+    <div class="rail">
+      <div class="axis"></div>
+      <div class="chip"><i></i>Instagram DMs</div>
+      <div class="chip"><i></i>WhatsApp screenshots</div>
+      <div class="chip"><i></i>stock.xlsx</div>
+      <div class="chip"><i></i>Link in bio</div>
+      <div class="chip"><i></i>Delivery app</div>
+      <div class="chip"><i></i>Notebook</div>
+      <div class="core">
+        <div class="t"><b>Nour Ceramics</b><span>Today</span></div>
+        <div class="kpi"><div><small>Sales</small><b>$2,140</b></div><div><small>Orders</small><b>38</b></div><div><small>In stock</small><b>248</b></div></div>
+        <div class="rows"><div><span>#4822</span><span>Lina A.</span><span>$96</span><span class="st live">Just now</span></div><div><span>#4821</span><span>Rania K.</span><span>$64</span><span class="st gold">Paid</span></div><div><span>#4820</span><span>Karim H.</span><span>$48</span><span class="st">Packing</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="surfaces">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="eyebrow">A look inside</span><h2 class="serif">Five surfaces. <span class="it">One system.</span></h2></div>
+      <p>The same product, order, and customer data on every screen. What you change in one place is already changed everywhere else. Scroll and each surface takes over the frame.</p>
+    </div>
+    <div class="body">
+      <ul class="index">
+        <li><span>Storefront</span><small>01</small></li>
+        <li><span>Catalog</span><small>02</small></li>
+        <li class="on"><span>Orders</span><small>03</small></li>
+        <li><span>Campaigns</span><small>04</small></li>
+        <li><span>Analytics</span><small>05</small></li>
+      </ul>
+      <div class="screen">
+        <div class="top"><i></i><i></i><i></i><span class="url">admin.axisel.com/orders</span></div>
+        <div class="in">
+          <aside><div>Home</div><div>Storefront</div><div>Catalog</div><div class="on">Orders<span>12 new</span></div><div>Customers</div><div>Campaigns</div><div>Analytics</div><div>Settings</div></aside>
+          <main>
+            <h4>Orders</h4><div class="sub">All channels · Today · 38 orders · $2,140</div>
+            <table class="tbl">
+              <tr><th>Order</th><th>Customer</th><th>Channel</th><th>Items</th><th>Total</th><th>Status</th></tr>
+              <tr><td>#4822</td><td>Lina A. · Achrafieh</td><td><span class="ch"><i></i>Instagram</span></td><td>2</td><td>$96</td><td><span class="st live">Just now</span></td></tr>
+              <tr><td>#4821</td><td>Rania K. · Hamra</td><td><span class="ch"><i></i>Instagram</span></td><td>2</td><td>$64</td><td><span class="st gold">Paid</span></td></tr>
+              <tr><td>#4820</td><td>Karim H. · Jounieh</td><td><span class="ch"><i></i>Web</span></td><td>1</td><td>$48</td><td><span class="st">Packing</span></td></tr>
+              <tr><td>#4819</td><td>Maya S. · Saida</td><td><span class="ch"><i></i>WhatsApp</span></td><td>3</td><td>$112</td><td><span class="st">Out for delivery</span></td></tr>
+              <tr><td>#4818</td><td>Omar T. · Byblos</td><td><span class="ch"><i></i>Web</span></td><td>1</td><td>$36</td><td><span class="st">Delivered</span></td></tr>
+            </table>
+          </main>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fast">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Start fast</span>
+      <h2 class="serif">Live by <span class="it">this afternoon.</span></h2>
+      <p>Describe your brand in a sentence, or connect your Instagram. Axisel builds the storefront, imports your products, and sets up delivery and payment for Lebanon.</p>
+      <a class="btn" href="#">Start free</a>
+    </div>
+    <div class="steps">
+      <div><b>01</b><div><h4>Tell Axisel what you sell</h4><p>"A small ceramics studio in Beirut. Warm, handmade, minimal." That is enough.</p></div></div>
+      <div><b>02</b><div><h4>Axisel builds your store</h4><p>Storefront, product pages, checkout, delivery zones, cash on delivery and cards. Designed, not templated.</p></div></div>
+      <div><b>03</b><div><h4>Share the link</h4><p>Every order from Instagram, WhatsApp, or the web lands in the same view. Stock updates itself.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing">
+  <div class="wrap">
+    <div class="head"><div><span class="eyebrow">Pricing</span><h2 class="serif">Predictable, at every stage.</h2></div><p>Start free and grow into the plan your business needs. No commission on your sales, on any plan, ever.</p></div>
+    <div class="plans">
+      <div class="plan"><small>Founders</small><b>Free</b><p>Test the idea. 25 products, your own storefront.</p></div>
+      <div class="plan"><small>Starter</small><b>$24<sub>/mo</sub></b><p>Your first real store. Up to 1,000 products.</p></div>
+      <div class="plan hi"><small>Growth</small><b>$59<sub>/mo</sub></b><p>Campaigns, promotions, and tracking.</p></div>
+      <div class="plan"><small>Pro</small><b>$99<sub>/mo</sub></b><p>Online and in-store, up to 5 branches.</p></div>
+      <div class="plan"><small>Enterprise</small><b>Custom</b><p>Larger operators, dedicated onboarding.</p></div>
+    </div>
+    <p class="note"><b>No commission on your sales.</b> Every dollar a customer pays is yours, minus only what the card network charges. Annual billing saves 20%.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="lockup"><svg width="30" height="30"><use href="#axMark"/></svg><span class="word">axisel</span></div>
+      <div class="tag">Grow together</div>
+      <p>The commerce platform built in Beirut for people who are already doing the work.</p>
+    </div>
+    <div><h5>Product</h5><ul><li>Platform</li><li>Templates</li><li>Pricing</li><li>AI builder</li></ul></div>
+    <div><h5>Company</h5><ul><li>About</li><li>Community</li><li>Careers</li><li>Contact</li></ul></div>
+    <div><h5>Support</h5><ul><li>Help center</li><li>Book a demo</li><li>Status</li><li>Privacy</li></ul></div>
+  </div>
+  <div class="wrap base"><span>© 2026 Axisel Digital Solutions SARL</span><span>Beirut, Lebanon · English / العربية</span></div>
+</footer>
+<script>
+  // cursor parallax on the exploded stack (progressive enhancement)
+  (function(){
+    var s=document.querySelector('.stack'),sc=document.querySelector('.scene');if(!s||!sc)return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    sc.addEventListener('mousemove',function(e){var r=sc.getBoundingClientRect();var x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;s.style.animation='none';s.style.transform='translate(-50%,-50%) rotateX('+(58-y*10)+'deg) rotateZ('+(-23.5+x*8)+'deg)';});
+    sc.addEventListener('mouseleave',function(){s.style.animation='';s.style.transform='';});
+  })();
+</script>
+</body></html>
